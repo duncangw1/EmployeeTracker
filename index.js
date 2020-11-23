@@ -16,5 +16,77 @@ var connection = mysql.createConnection({
 connection.connect((err) => {
   if (err) throw err;
   console.log("Connected as ID: " + connection.threadId);
-  //   runPrompt();
+  runPrompt();
 });
+
+// Function to start inquirer prompt
+function runPrompt() {
+  inquirer
+    .prompt({
+      name: "action",
+      type: "list",
+      message: "What would you like to do?",
+      choices: [
+        "View All Employees",
+        "View All Employees By Department",
+        "Add Employee",
+        "Update Employee Role",
+        "View All Roles",
+        "Add Role",
+        "View All Departments",
+        "Add Department",
+        "Quit",
+      ],
+    })
+    .then((answer) => {
+      switch (answer.action) {
+        case "View All Employees":
+          viewAllEmp();
+          break;
+
+        case "View All Employees By Department":
+          // viewAllEmpByDep();
+          break;
+
+        case "Add Employee":
+          // addEmp();
+          break;
+
+        case "Update Employee Role":
+          // updateEmpRole();
+          break;
+
+        case "View All Roles":
+          // viewAllRoles();
+          break;
+
+        case "Add Role":
+          // addRole();
+          break;
+
+        case "View All Departments":
+          // viewAllDep();
+          break;
+
+        case "Add Department":
+          // addDep();
+          break;
+
+        case "Quit":
+          console.log("Goodbye!");
+          connection.end();
+      }
+    });
+}
+
+// Function to view all employees
+function viewAllEmp() {
+  let query =
+    "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.department, role.salary, CONCAT(emp.first_name, ' ', emp.last_name) AS manager FROM employee INNER JOIN role ON role.id = employee.role_id INNER JOIN department ON department.id = role.department_id LEFT JOIN employee emp ON employee.manager_id = emp.id;";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.log("\n");
+    console.table(res);
+    runPrompt();
+  });
+}

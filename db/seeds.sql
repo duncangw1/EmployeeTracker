@@ -1,19 +1,19 @@
 USE empTrack_db;
 
---====== Department Seeds ======--
-INSERT INTO department (name)
+-- Department Seeds
+INSERT INTO department (department)
 VALUE ("Sales");
 
-INSERT INTO department (name)
+INSERT INTO department (department)
 VALUE ("Engineering");
 
-INSERT INTO department (name)
+INSERT INTO department (department)
 VALUE ("Finance");
 
-INSERT INTO department (name)
+INSERT INTO department (department)
 VALUE ("Legal");
 
---====== Role Seeds ======--
+-- Role Seeds
 INSERT INTO role (title, salary, department_id)
 VALUE ("Sales Lead", 100000, 1);
 
@@ -38,7 +38,7 @@ VALUE ("Legal Team Lead", 250000, 4);
 INSERT INTO role (title, salary, department_id)
 VALUE ("Lawyer", 190000, 4);
 
---====== Employee Seeds ======--
+-- Employee Seeds
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUE ("John", "Doe", 1, null);
 
