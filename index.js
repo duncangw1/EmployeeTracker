@@ -57,7 +57,7 @@ function runPrompt() {
           break;
 
         case "View All Roles":
-          // viewAllRoles();
+          viewAllRoles();
           break;
 
         case "Add Role":
@@ -65,7 +65,7 @@ function runPrompt() {
           break;
 
         case "View All Departments":
-          // viewAllDep();
+          viewAllDep();
           break;
 
         case "Add Department":
@@ -74,7 +74,6 @@ function runPrompt() {
 
         case "Quit":
           console.log("Goodbye!");
-          console.log("\n");
           connection.end();
       }
     });
@@ -112,3 +111,33 @@ function viewAllEmpByDep() {
       });
     });
 }
+
+// Function to add employee
+
+// Function to update employee role
+
+// Function to view all roles
+function viewAllRoles() {
+  let query = "SELECT title, salary, department_id FROM role";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.log("\n");
+    console.table(res);
+    runPrompt();
+  });
+}
+
+// Function to add role
+
+// Function to view all departments
+function viewAllDep() {
+  let query = "SELECT * FROM department";
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.log("\n");
+    console.table(res);
+    runPrompt();
+  });
+}
+
+// Function to add department
