@@ -45,7 +45,7 @@ function runPrompt() {
           break;
 
         case "View All Employees By Department":
-          // viewAllEmpByDep();
+          viewAllEmpByDep();
           break;
 
         case "Add Employee":
@@ -74,6 +74,7 @@ function runPrompt() {
 
         case "Quit":
           console.log("Goodbye!");
+          console.log("\n");
           connection.end();
       }
     });
@@ -89,4 +90,25 @@ function viewAllEmp() {
     console.table(res);
     runPrompt();
   });
+}
+
+// Function to view all employees by department
+function viewAllEmpByDep() {
+  inquirer
+    .prompt({
+      name: "department",
+      type: "list",
+      message: "Which department would you like to see employees for?",
+      choices: ["Sales", "Engineering", "Finance", "Legal"],
+    })
+    .then((answer) => {
+      let query =
+        "SELECT employee.id, employee.first_name, employee.last_name, role.title FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id WHERE ? ORDER BY employee.id;";
+      connection.query(query, { department: answer.department }, (err, res) => {
+        if (err) throw err;
+        console.log("\n");
+        console.table(res);
+        runPrompt();
+      });
+    });
 }

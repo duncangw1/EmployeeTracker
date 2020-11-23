@@ -62,7 +62,3 @@ VALUE ("Sarah", "Lourd", 7, null);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUE ("Tom", "Allen", 8, 7);
-
-SELECT * FROM department;
-SELECT * FROM role;
-SELECT * FROM employee;
