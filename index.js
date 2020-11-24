@@ -61,7 +61,7 @@ function runPrompt() {
           break;
 
         case "Add Role":
-          // addRole();
+          addRole();
           break;
 
         case "View All Departments":
@@ -69,7 +69,7 @@ function runPrompt() {
           break;
 
         case "Add Department":
-          // addDep();
+          addDep();
           break;
 
         case "Quit":
@@ -196,6 +196,58 @@ function viewAllRoles() {
 }
 
 // Function to add role
+function addRole() {
+  let query1 = "SELECT * FROM department";
+  connection.query(query1, (err, res) => {
+    if (err) throw err;
+    inquirer
+      .prompt([
+        {
+          name: "newRole",
+          type: "input",
+          message: "What is the Title of the new role?",
+        },
+        {
+          name: "newSalary",
+          type: "input",
+          message: "What is the salary of this position? (Enter a number?)",
+        },
+        {
+          name: "depList",
+          type: "list",
+          choices: function () {
+            let depArray = [];
+            for (let i = 0; i < res.length; i++) {
+              depArray.push(res[i].department);
+            }
+            return depArray;
+          },
+        },
+      ])
+      .then((answer) => {
+        let depId;
+        for (let j = 0; j < res.length; j++) {
+          if (res[j].department == answer.depList) {
+            depId = res[j].id;
+          }
+        }
+        let query2 = "INSERT INTO role SET ?";
+        connection.query(
+          query2,
+          {
+            title: answer.newRole,
+            salary: answer.newSalary,
+            department_id: depId,
+          },
+          (err, res) => {
+            if (err) throw err;
+            console.log("Successfully added new role to the database!");
+            runPrompt();
+          }
+        );
+      });
+  });
+}
 
 // Function to view all departments
 function viewAllDep() {
@@ -209,3 +261,21 @@ function viewAllDep() {
 }
 
 // Function to add department
+function addDep() {
+  inquirer
+    .prompt([
+      {
+        name: "newDep",
+        type: "input",
+        message: "Enter the new department name:",
+      },
+    ])
+    .then((answer) => {
+      let query = "INSERT INTO department SET ?";
+      connection.query(query, { department: answer.newDep }, (err, res) => {
+        if (err) throw err;
+        console.log("Successfully added new department!");
+        runPrompt();
+      });
+    });
+}
