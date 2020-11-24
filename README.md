@@ -1,10 +1,10 @@
-# 10 MySQL: Employee Tracker
+# 12 MySQL: Employee Tracker
 
 # [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
 
-The purpose of the Employee Tracker is...
+The purpose of the Employee Tracker is to provide non-developers with an application that allows them to easily view and interact with information stored in a database. This application has been developed to resemble a **C**ontent **M**anagement **S**ystem. The technologies utilized to make the Employee Tracker function are JavaScript, Node.js, Inquirer, Console.Table, and MySQL. The npm package called [dotenv](https://www.npmjs.com/package/dotenv) has also been used to hide the password used within the index.js file. Once invoked, the user will be presented with a set of actions that they can select from. These actions include: View All Employees, View All Employees By Department, Add Employee, Update Employee Role, View All Roles, Add Role, View All Departments, Add Departments, and Quit. By choosing different actions the user is able to customize the employee database and view its data in several different table formats.
 
 ## Table of Contents
 
@@ -30,9 +30,9 @@ _How to install & get the application running._
 
 _Guidelines for usage & link to Walkthrough Video._
 
-This application may be used to... Please view the [Walkthrough Video](https://www.youtube.com/watch?v=1XKzffouxlU&feature=youtu.be) for an overview of the application in action.
+This application may be used to interact with employee information stored in a database and may be used for any personal, professional, or educational purpose. Please view the [Walkthrough Video](https://www.youtube.com/watch?v=1XKzffouxlU&feature=youtu.be) for an overview of the application in action.
 
-![Employee Tracker Demo](#)
+![Employee Tracker Demo](./assets/images/EmployeeTracker.gif)
 
 ## Licenses
 
