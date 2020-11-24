@@ -134,25 +134,51 @@ function addEmp() {
       {
         name: "newChooseManagerId",
         type: "input",
-        message: "What is the manager's id number? (Enter 'null' if n/a)",
+        message: "What is the manager's id number? (Type 'null' if n/a)",
       },
     ])
     .then((answer) => {
-      let query = "INSERT INTO employee SET ?";
-      connection.query(
-        query,
-        {
-          first_name: answer.newFirstName,
-          last_name: answer.newLastName,
-          role_id: answer.newChooseRoleId,
-          manager_id: answer.newChooseManagerId,
-        },
-        (err, res) => {
-          if (err) throw err;
-          console.log("Successfully added new employee to the database!");
-          runPrompt();
-        }
-      );
+      if (answer.newChooseManagerId === "null") {
+        let query = "INSERT INTO employee SET ?";
+        connection.query(
+          query,
+          {
+            first_name: answer.newFirstName,
+            last_name: answer.newLastName,
+            role_id: answer.newChooseRoleId,
+            manager_id: null,
+          },
+          (err, res) => {
+            if (err) {
+              console.log("Try again with a valid role id and manager id");
+              addEmp();
+            } else {
+              console.log("Successfully added new employee to the database!");
+              runPrompt();
+            }
+          }
+        );
+      } else {
+        let query = "INSERT INTO employee SET ?";
+        connection.query(
+          query,
+          {
+            first_name: answer.newFirstName,
+            last_name: answer.newLastName,
+            role_id: answer.newChooseRoleId,
+            manager_id: answer.newChooseManagerId,
+          },
+          (err, res) => {
+            if (err) {
+              console.log("Try again with a valid role id and manager id");
+              addEmp();
+            } else {
+              console.log("Successfully added new employee to the database!");
+              runPrompt();
+            }
+          }
+        );
+      }
     });
 }
 
