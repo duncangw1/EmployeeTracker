@@ -49,7 +49,7 @@ function runPrompt() {
           break;
 
         case "Add Employee":
-          // addEmp();
+          addEmp();
           break;
 
         case "Update Employee Role":
@@ -113,12 +113,54 @@ function viewAllEmpByDep() {
 }
 
 // Function to add employee
+function addEmp() {
+  inquirer
+    .prompt([
+      {
+        name: "newFirstName",
+        type: "input",
+        message: "What is the employee's first name?",
+      },
+      {
+        name: "newLastName",
+        type: "input",
+        message: "What is the employee's last name?",
+      },
+      {
+        name: "newChooseRoleId",
+        type: "input",
+        message: "What is the employee's role id number?",
+      },
+      {
+        name: "newChooseManagerId",
+        type: "input",
+        message: "What is the manager's id number? (Enter 'null' if n/a)",
+      },
+    ])
+    .then((answer) => {
+      let query = "INSERT INTO employee SET ?";
+      connection.query(
+        query,
+        {
+          first_name: answer.newFirstName,
+          last_name: answer.newLastName,
+          role_id: answer.newChooseRoleId,
+          manager_id: answer.newChooseManagerId,
+        },
+        (err, res) => {
+          if (err) throw err;
+          console.log("Successfully added new employee to the database!");
+          runPrompt();
+        }
+      );
+    });
+}
 
 // Function to update employee role
 
 // Function to view all roles
 function viewAllRoles() {
-  let query = "SELECT title, salary, department_id FROM role";
+  let query = "SELECT id AS role_id, title, salary, department_id FROM role";
   connection.query(query, (err, res) => {
     if (err) throw err;
     console.log("\n");
