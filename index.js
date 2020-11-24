@@ -53,7 +53,7 @@ function runPrompt() {
           break;
 
         case "Update Employee Role":
-          // updateEmpRole();
+          updateEmpRole();
           break;
 
         case "View All Roles":
@@ -183,6 +183,53 @@ function addEmp() {
 }
 
 // Function to update employee role
+function updateEmpRole() {
+  let query1 =
+    "SELECT employee.last_name, employee.role_id, role.id, role.title FROM employee INNER JOIN role ON employee.role_id = role.id";
+  connection.query(query1, (err, res) => {
+    if (err) throw err;
+    inquirer
+      .prompt([
+        {
+          name: "chooseEmp",
+          type: "list",
+          message: "Choose an employee to update their role (by last name):",
+          choices: function () {
+            let empArray = [];
+            for (let i = 0; i < res.length; i++) {
+              empArray.push(res[i].last_name);
+            }
+            return empArray;
+          },
+        },
+        {
+          name: "chooseRole",
+          type: "list",
+          message: "Choose a role to update to:",
+          choices: function () {
+            let roleArray = [];
+            for (let i = 0; i < res.length; i++) {
+              roleArray.push(res[i].id + ": " + res[i].title);
+            }
+            return roleArray;
+          },
+        },
+      ])
+      .then((answer) => {
+        let roleId = answer.chooseRole.charAt(0);
+        let query2 = "UPDATE employee SET ? WHERE ?";
+        connection.query(
+          query2,
+          [{ role_id: roleId }, { last_name: answer.chooseEmp }],
+          (err, res) => {
+            if (err) throw err;
+            console.log("Successfully updated employee's role!");
+            runPrompt();
+          }
+        );
+      });
+  });
+}
 
 // Function to view all roles
 function viewAllRoles() {
@@ -205,12 +252,12 @@ function addRole() {
         {
           name: "newRole",
           type: "input",
-          message: "What is the Title of the new role?",
+          message: "Enter the name for the new role:",
         },
         {
           name: "newSalary",
           type: "input",
-          message: "What is the salary of this position? (Enter a number?)",
+          message: "Enter the salary for the new role (numbers only):",
         },
         {
           name: "depList",
