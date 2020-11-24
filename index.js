@@ -208,8 +208,8 @@ function updateEmpRole() {
           message: "Choose a role to update to:",
           choices: function () {
             let roleArray = [];
-            for (let i = 0; i < res.length; i++) {
-              roleArray.push(res[i].id + ": " + res[i].title);
+            for (let j = 0; j < res.length; j++) {
+              roleArray.push(res[j].id + ": " + res[j].title);
             }
             return roleArray;
           },
